@@ -17,16 +17,17 @@ int main(int argc, char **argv)
     selfAddr->sin_addr.s_addr = 0;
     sockaddr_in * remoteAddr = new (sockaddr_in);
     remoteAddr->sin_family = AF_INET;
-    remoteAddr->sin_port = htons(13); 
-    remoteAddr->sin_addr.s_addr = inet_addr("82.179.90.12"); 
+    remoteAddr->sin_port = htons(7);
+
+    remoteAddr->sin_addr.s_addr = inet_addr("82.179.90.12");
     char *buf = new char [256];
-    
-    strcpy(buf, "Сколько врмени?\n");
+    strcpy(buf, "Как дела?\n");
     int msgLen = strlen(buf);
-    int mySocket = socket(AF_INET, SOCK_STREAM, 0); 
+    int mySocket = socket(AF_INET, SOCK_DGRAM, 0);
     if (mySocket == -1) {
         errHandler("Error open socket", 11);
     }
+
     int rc = bind(mySocket, (const sockaddr*) selfAddr, sizeof
                   (sockaddr_in));
     if (rc == -1) {
@@ -57,6 +58,7 @@ int main(int argc, char **argv)
     close(mySocket);
 
     delete selfAddr;
+
     delete remoteAddr;
     delete[] buf;
     return 0;
